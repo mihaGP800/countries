@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Search} from './Search';
 import {CustomSelect} from './CustomSelect';
 import styled from 'styled-components';
@@ -17,15 +17,24 @@ const Wrapper = styled.div`
 
 const options = [
     {value: 'Africa', label: 'Africa'},
-    {value: 'America', label: 'America'},
+    {value: 'Americas', label: 'Americas'},
     {value: 'Asia', label: 'Asia'},
     {value: 'Europe', label: 'Europe'},
     {value: 'Oceania', label: 'Oceania'},
 ]
 
-export const Controls = () => {
+type ControlsType = {
+    searchHandle: (search: string, region: string) => void
+}
+
+export const Controls: React.FC<ControlsType> = ({searchHandle}) => {
     const [search, setSearch] = useState('')
-    const [region, setRegion] = useState('')
+    const [region, setRegion] = useState<{ value: string, label: string } | null>(null)
+
+    useEffect(() => {
+        searchHandle(search, region ? region.value : '')
+    }, [search, region])
+
     return (
         <Wrapper>
             <Search search={search} setSearch={setSearch}/>
