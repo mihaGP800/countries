@@ -29,9 +29,9 @@ export const HomePage: React.FC<HomePageType> = () => {
     const searchHandle = (search: string, region: string) => {
         let data = [...countries]
 
-        if (search) data = countries.filter(c => c.name.toLowerCase().includes(search.toLowerCase()))
+        if (search) data = data.filter(c => c.name.toLowerCase().includes(search.toLowerCase()))
 
-        if (region) data = countries.filter(c => c.region === region)
+        if (region) data = data.filter(c => c.region === region)
 
         setFilteredCountries(data)
     }
