@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components'
-import {countriesAPI, CountryItem} from '../api/coutriesApi';
+import {CountryItem} from '../api/coutriesApi';
 import {useNavigate} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../store/store';
+import {getCountriesByCodes} from '../store/countriesReducer';
 
 const Wrapper = styled.section`
   margin-top: 3rem;
@@ -90,16 +92,13 @@ const Tag = styled.span`
   box-shadow: var(--shadow);
   line-height: 1.8;
   cursor: pointer;
-
 `
-
 
 type InfoType = {
     country: CountryItem
-    push?: any
 }
 
-const Info: React.FC<InfoType> = ({country, push}) => {
+export const Info: React.FC<InfoType> = ({country}) => {
     const {
         name,
         nativeName,
@@ -114,13 +113,14 @@ const Info: React.FC<InfoType> = ({country, push}) => {
         borders = [],
     } = country
 
-    const [neighbors, setNeighbors] = useState<string[]>([])
+
+    const countriesNames = useAppSelector(state => state.countries.countriesNames)
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
 
     useEffect(() => {
-       if (borders.length) countriesAPI.getCountriesByCodes(borders)
-            .then(data => setNeighbors(data.map(c => c.name)))
+        if (borders.length) dispatch(getCountriesByCodes(borders))
     }, [borders])
 
     const goToCountryHandle = (countryName: string) => {
@@ -135,6 +135,7 @@ const Info: React.FC<InfoType> = ({country, push}) => {
                 <ListBlock>
                     <List>
                         <ListItem><b>native name:</b>{nativeName}</ListItem>
+                        <ListItem><b>capital:</b>{capital}</ListItem>
                         <ListItem><b>population:</b>{population}</ListItem>
                         <ListItem><b>region:</b>{region}</ListItem>
                         <ListItem><b>sub region:</b>{subregion}</ListItem>
@@ -163,16 +164,13 @@ const Info: React.FC<InfoType> = ({country, push}) => {
                         <span>There is no borders countries</span>
                     ) : (
                         <TagGroup>
-                            {neighbors.map(b =>
+                            {countriesNames.map(b =>
                                 <Tag key={b}
                                      onClick={() => goToCountryHandle(b)}>{b}</Tag>)}
                         </TagGroup>
                     )}
                 </Meta>
-
             </div>
         </Wrapper>
     );
-};
-
-export default Info;
+}

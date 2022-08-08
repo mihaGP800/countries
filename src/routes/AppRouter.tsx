@@ -1,14 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {AppRoutePaths} from './appRoutes';
 import {HomePage} from '../pages/HomePage';
 import {Details} from '../pages/Details';
 import {NotFound} from '../pages/NotFound';
-import {CountriesResponseType} from '../api/coutriesApi';
 
 type AppRouterType = {
-    countries: CountriesResponseType
-    setCountries: (countries: CountriesResponseType) => void
 }
 
 export const AppRouter: React.FC<AppRouterType> = (props) => {

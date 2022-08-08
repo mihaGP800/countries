@@ -2,25 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {Controls} from '../components/controls/Controls';
 import {List} from '../components/List';
 import {Card} from '../components/Card';
-import {countriesAPI, CountriesResponseType} from '../api/coutriesApi';
+import {CountriesResponseType} from '../api/coutriesApi';
 import {useNavigate} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../store/store';
+import {fetchCountries} from '../store/countriesReducer';
 
-type HomePageType = {
-    countries: CountriesResponseType
-    setCountries: (countries: CountriesResponseType) => void
-}
+type HomePageType = {}
 
-export const HomePage: React.FC<HomePageType> = ({countries, setCountries}) => {
+export const HomePage: React.FC<HomePageType> = () => {
+
+    const countries = useAppSelector(state => state.countries.countries)
+    const dispatch = useAppDispatch()
+
 
     let [filteredCountries, setFilteredCountries] = useState<CountriesResponseType>([])
     const navigate = useNavigate()
 
     useEffect(() => {
-            countriesAPI.getAll().then(res => {
-                setCountries(res)
-                setFilteredCountries(res)
-            })
+        dispatch(fetchCountries())
     }, [])
+
+    useEffect(() => {
+        setFilteredCountries(countries)
+    }, [countries])
 
     const searchHandle = (search: string, region: string) => {
         let data = [...countries]

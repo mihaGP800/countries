@@ -6,11 +6,11 @@ export const countriesAPI = {
     getAll: () => instance.get<CountriesResponseType>('all', {params: {fields: filterFields.join(',')}}).then(res => res.data),
 
     getCountryByName: (name: string) =>
-        instance.get<CountryResponseType>(`name/${name}`).then(res => res.data),
+        instance.get<FoundCountriesResponseType>(`name/${name}`).then(res => res.data),
 
     getCountriesByCodes: (codesAll: string[]) =>
         instance
-            .get<CountryResponseType>
+            .get<FoundCountriesResponseType>
             (`alpha`, {params: {codes: codesAll.join(',')}})
             .then(res => res.data),
 }
@@ -96,4 +96,4 @@ export interface CountryItem {
     cioc: string;
     independent: boolean;
 };
-export type CountryResponseType = CountryItem[];
+export type FoundCountriesResponseType = CountryItem[];

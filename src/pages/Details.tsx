@@ -1,30 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import styled from 'styled-components'
 import {IoArrowBack} from "react-icons/io5";
-import {AppRoutePaths} from '../routes/appRoutes';
-import {countriesAPI, CountryItem, CountryResponseType} from '../api/coutriesApi';
 import {Button} from '../components/Button';
-import Info from '../components/Info';
+import {Info} from '../components/Info';
+import {BACK} from '../constant';
+import {useAppDispatch, useAppSelector} from '../store/store';
+import {getCountryByName} from '../store/countriesReducer';
 
 export const Details = () => {
     const {name} = useParams()
     const navigate = useNavigate()
-    const [country, setCountry] = useState<CountryItem | null>(null)
+
+    const country = useAppSelector(state => state.countries.country)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        name && countriesAPI.getCountryByName(name)
-            .then(data => {
-                setCountry(data[0])
-            })
+        name && dispatch(getCountryByName(name))
     }, [name])
 
-    const goBackHandle = () => {
-        // navigate(AppRoutePaths.HOMEPAGE)
-        navigate(-1)
-    }
-
-
+    const goBackHandle = () => navigate(BACK)
 
     return (
         <div>
@@ -32,7 +26,6 @@ export const Details = () => {
                 <IoArrowBack/>Back
             </Button>
             {country && <Info country={country}/>}
-
         </div>
     );
 }
