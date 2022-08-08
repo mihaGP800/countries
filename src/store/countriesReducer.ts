@@ -35,8 +35,8 @@ export const getCountriesByCodesAC = (countriesNames: string[]) =>
 
 export const fetchCountries = (): ThunkApp => async dispatch => {
     dispatch(setIsLoading(true));
-    const data = await countriesAPI.getAll()
     try {
+        const data = await countriesAPI.getAll()
         dispatch(fetchCountriesAC(data));
     } catch (e) {
         dispatch(setError((e as AxiosError).message));
@@ -47,8 +47,8 @@ export const fetchCountries = (): ThunkApp => async dispatch => {
 
 export const getCountryByName = (name: string): ThunkApp => async dispatch => {
     dispatch(setIsLoading(true));
-    const data = await countriesAPI.getCountryByName(name)
     try {
+        const data = await countriesAPI.getCountryByName(name)
         dispatch(getCountryByNameAC(data[0]));
     } catch (e) {
         dispatch(setError((e as AxiosError).message));
@@ -59,8 +59,8 @@ export const getCountryByName = (name: string): ThunkApp => async dispatch => {
 
 export const getCountriesByCodes = (borders: string[]): ThunkApp => async dispatch => {
     dispatch(setIsLoading(true));
-    const data = await countriesAPI.getCountriesByCodes(borders)
     try {
+        const data = await countriesAPI.getCountriesByCodes(borders)
         dispatch(getCountriesByCodesAC(data.map(c => c.name)));
     } catch (e) {
         dispatch(setError((e as AxiosError).message));
