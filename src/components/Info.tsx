@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {CountryItem} from '../api/coutriesApi';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../store/store';
-import {getCountriesByCodes} from '../store/countriesReducer';
+import {getCountriesByCodes, getCountriesByCodesAC} from '../store/countriesReducer';
 
 const Wrapper = styled.section`
   margin-top: 3rem;

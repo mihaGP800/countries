@@ -12,6 +12,8 @@ type HomePageType = {}
 export const HomePage: React.FC<HomePageType> = () => {
 
     const countries = useAppSelector(state => state.countries.countries)
+    const isLoading = useAppSelector(state => state.app.isLoading)
+
     const dispatch = useAppDispatch()
 
 
@@ -53,6 +55,7 @@ export const HomePage: React.FC<HomePageType> = () => {
                                      {title: 'Capital', description: c.capital},
                                  ]}
                                  onClick={navigateHandle}
+                                 disabled={isLoading}
                     />
                 })}
             </List>

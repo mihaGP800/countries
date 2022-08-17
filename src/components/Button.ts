@@ -13,4 +13,7 @@ export const Button = styled.button`
   gap: 0.75rem;
   color: var(--colors-text);
   cursor: pointer;
+  &:disabled{
+    cursor: not-allowed;
+  }
 `

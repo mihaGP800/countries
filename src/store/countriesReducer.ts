@@ -26,7 +26,7 @@ export const countriesReducer = (state: CountriesStateType = initialState,
 export const fetchCountriesAC = (countries: CountriesResponseType) =>
     ({type: 'COUNTRIES/GET-COUNTRIES', payload: {countries},} as const);
 
-export const getCountryByNameAC = (country: CountryItem) =>
+export const getCountryByNameAC = (country: CountryItem  | null) =>
     ({type: 'COUNTRIES/GET-COUNTRY-BY-NAME', payload: {country},} as const);
 
 export const getCountriesByCodesAC = (countriesNames: string[]) =>
@@ -48,6 +48,7 @@ export const fetchCountries = (): ThunkApp => async dispatch => {
 export const getCountryByName = (name: string): ThunkApp => async dispatch => {
     dispatch(setIsLoading(true));
     try {
+        dispatch(getCountryByNameAC(null))
         const data = await countriesAPI.getCountryByName(name)
         dispatch(getCountryByNameAC(data[0]));
     } catch (e) {
@@ -60,6 +61,7 @@ export const getCountryByName = (name: string): ThunkApp => async dispatch => {
 export const getCountriesByCodes = (borders: string[]): ThunkApp => async dispatch => {
     dispatch(setIsLoading(true));
     try {
+        dispatch(getCountriesByCodesAC([]))
         const data = await countriesAPI.getCountriesByCodes(borders)
         dispatch(getCountriesByCodesAC(data.map(c => c.name)));
     } catch (e) {

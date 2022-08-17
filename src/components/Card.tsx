@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components'
 
-const Wrapper = styled.article`
+const Wrapper = styled.article<{disabled: boolean}>`
   border-radius: var(--radii);
   background-color: var(--colors-bg);
   box-shadow: var(--shadow);
-  cursor: pointer;
+  cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
   overflow: hidden;
-
 `
 
 const CardImage = styled.img`
@@ -55,11 +54,13 @@ type CardType = {
     img: string
     info: CardItemType[]
     onClick: () => void
+    disabled: boolean
 }
 
-export const Card: React.FC<CardType> = ({name, img, info = [], onClick}) => {
+export const Card: React.FC<CardType> = ({name, img, info = [], onClick, disabled}) => {
+    const onClickWithDisabled = !disabled ? onClick : () => {}
     return (
-        <Wrapper onClick={onClick}>
+        <Wrapper onClick={onClickWithDisabled} disabled={disabled}>
             <CardImage src={img} alt='name'/>
             <CardBody>
                 <CardTitle>{name}</CardTitle>
